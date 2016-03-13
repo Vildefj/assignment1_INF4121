@@ -22,6 +22,10 @@ class MineField{
 		mines=new boolean[rowMax][colMax];
 		visible=new boolean[rowMax][colMax];
 		
+		loopThroughBoard();
+	}
+	
+	public void loopThroughBoard(){		
 		for(int row=0;row<rowMax;row++){
 			for(int col=0;col<colMax;col++){
 				mines[row][col]=false;
@@ -60,9 +64,7 @@ class MineField{
 	private void boom() {
 		for(int row=0;row<rowMax;row++){
 			for(int col=0;col<colMax;col++){
-				if(mines[row][col]){
-					visible[row][col]=true;
-				}
+				setVisible(row, col);
 			}
 		}
 		boom=true;
@@ -70,45 +72,54 @@ class MineField{
 		
 		
 	}
+	
+	private void setVisible (int row, int col) {
+		if(mines[row][col]){
+			visible[row][col]=true;
+		}
+	}
+	
 
 
 	private char drawChar(int row, int col) {
 		int count=0;
 		if(visible[row][col]){
 			if(mines[row][col]) return '*';
-			for(int irow=row-1;irow<=row+1;irow++){
-				for(int icol=col-1;icol<=col+1;icol++){
-					if(icol>=0&&icol<colMax&&irow>=0&&irow<rowMax){
-						if(mines[irow][icol]) count++;
-					}
+			count = countMinesNearby(row, col, count);
+		}
+		
+		else{
+			return determineBoom();
+		}
+		return intToChar(count);
+
+	}
+	
+	private char determineBoom () {
+		if(boom){
+			return '-';
+		}
+		{
+			return '?';
+		}	
+	}
+	
+	private char intToChar (int nr) {
+		if(nr >= 0) return Character.forDigit(nr, 10); 
+		else return 'x';	
+	}
+	
+	private int countMinesNearby(int row, int col, int count){
+		for(int irow=row-1;irow<=row+1;irow++){
+			for(int icol=col-1;icol<=col+1;icol++){
+				if(icol>=0&&icol<colMax&&irow>=0&&irow<rowMax){
+					if(mines[irow][icol]) count++; 
 				}
 			}
 		}
-		else{
-			if(boom){
-				return '-';
-			}
-			{
-				
-				
-				return '?';
-			}
-		}
-		switch(count){
-		case 0:return '0';
-		case 1:return '1';
-		case 2:return '2';
-		case 3:return '3';
-		case 4:return '4';
-		case 5:return '5';
-		case 6:return '6';
-		case 7:return '7';
-		case 8:return '8';
-		
-		
-		default:return 'X';
-		}
+		return count;
 	}
+	
 	public boolean getBoom(){
 		
 		return boom;
@@ -120,8 +131,6 @@ class MineField{
 		int row;
 		int col;
 		try{
-			
-			
 			row=Integer.parseInt(separated[0]);
 			col=Integer.parseInt(separated[1]);
 			if(row<0||col<0||row>=rowMax||col>=colMax){

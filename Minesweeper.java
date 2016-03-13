@@ -25,17 +25,18 @@ public class Minesweeper {
 			if (input.equals("top")) {
 				rank.show();
 				continue;
-
-
 			}
+			
 			if (input.equals("restart")) {
 				rank.recordName(result);
 				return true;
 			}
+			
 			if (input.equals("exit")) {
 				rank.recordName(result);
 				return false;
 			}
+			
 			if (field.legalMoveString(input)) {
 				result++;
 				if (result == 35) {
@@ -69,8 +70,6 @@ public class Minesweeper {
 			}
 
 		}
-
-
 		}
 
 	
