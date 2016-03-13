@@ -60,16 +60,20 @@ public class Ranking{
 			unsorted=false;
 			for(int i=0;i<(last-1);i++){
 				if(record[i+1]>record[i]){
-					int swapR=record[i];{
-						record[i]=record[i+1];{
-							record[i+1]=swapR;
-							String swapN=name[i];
-							name[i]=name[i+1];
-							name[i+1]=swapN;
-							unsorted=true;
-						}
-					}
+					swapRecord(i, unsorted);
+					
 				}
+			}
+		}
+	}
+	private void swapRecord(int i, boolean unsorted){
+		int swapR=record[i];{
+			record[i]=record[i+1];{
+				record[i+1]=swapR;
+				String swapN=name[i];
+				name[i]=name[i+1];
+				name[i+1]=swapN;
+				unsorted=true;
 			}
 		}
 	}
