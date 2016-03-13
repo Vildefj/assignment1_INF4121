@@ -9,9 +9,18 @@ class MineField{
 	
 	MineField(){
 		
+		
+		boom=false;
+		
+		initBoard();
+		
+		addRandomMines();	
+	}	
+	
+	public void initBoard(){
+		
 		mines=new boolean[rowMax][colMax];
 		visible=new boolean[rowMax][colMax];
-		boom=false;
 		
 		for(int row=0;row<rowMax;row++){
 			for(int col=0;col<colMax;col++){
@@ -19,6 +28,9 @@ class MineField{
 				visible[row][col]=false;
 			}
 		}
+	}
+	
+	public void addRandomMines(){
 		
 		int counter2=15;
 		int randomRow,randomCol;
@@ -32,8 +44,10 @@ class MineField{
 			if(trymove(randomRow,randomCol)){
 				counter2--;
 			}
-		}
-	}	
+		}	
+	}
+	
+	
 	private boolean trymove(int randomRow, int randomCol) {
 		if(mines[randomRow][randomCol]){
 			return false;
